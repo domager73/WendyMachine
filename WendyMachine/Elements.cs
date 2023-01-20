@@ -12,14 +12,4 @@ namespace Wendy
         public string Name;
         public int Prise;
     }
-
-    enum Prise 
-    {
-        Coffe = 100,
-        Latte = 150,
-        Macchiato = 130,
-        DoubleEx = 160,
-        Americano = 120,
-        Cappuccino = 170
-    }
 }
