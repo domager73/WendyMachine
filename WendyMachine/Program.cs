@@ -84,7 +84,7 @@ static void AdditionoСoffee(ref int orderSum)
     int value = InputInt("1. 100ml \n2. 150ml \n3. 200ml \nChosse the value of the glass: ");
     value = orderSum * value / 2;
 
-    orderSum += suggar + syrop + value;
+    orderSum = suggar + syrop + value;
 }
 
 static void WriteRow()
@@ -134,10 +134,13 @@ static void ChosseCoffe(ref int orderSum, Drink[] drinks)
 
         bool flag = true;
 
-        int numberCoffe = InputInt("Write id coffe you want buy: ");
+        int numberCoffe = InputInt("Write id coffe you want buy: ") - 1;
 
         switch (numberCoffe)
         {
+            case 0:
+                orderSum += drinks[numberCoffe].Prise;
+                break;
             case 1:
                 orderSum += drinks[numberCoffe].Prise;
                 break;
@@ -152,13 +155,6 @@ static void ChosseCoffe(ref int orderSum, Drink[] drinks)
                 break;
             case 5:
                 orderSum += drinks[numberCoffe].Prise;
-                break;
-            case 6:
-                orderSum += drinks[numberCoffe].Prise;
-                break;
-            case 0:
-                Console.Clear();
-                Console.WriteLine("Exit");
                 break;
             default:
                 {
