@@ -371,10 +371,6 @@ while (runProgram)
 
                 Console.ReadLine();
             }
-            else
-            {
-                Console.WriteLine("");
-            }
 
             Console.Clear();
             break;
