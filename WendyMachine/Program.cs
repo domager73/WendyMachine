@@ -1,4 +1,5 @@
-﻿using Wendy;
+﻿using System.Reflection.Metadata.Ecma335;
+using Wendy;
 
 void SelectionUser()
 {
@@ -13,7 +14,7 @@ static int InputInt(string msg)
     bool inputReault;
     int number;
 
-    Console.Write(msg + " ");
+    Console.Write(msg);
 
     do
     {
@@ -41,16 +42,25 @@ static Drink[] CreateDrinks(Drink[] drinks)
 
 static void PrintDrinks(Drink[] drinks)
 {
+    int flag = 0;
+
     Console.WriteLine("{0, -3}{1, -15}{2, -8}", "№   ", "Name", "Prise");
     if (drinks == null)
     {
-        Console.WriteLine("there are no drinks");
+        Console.WriteLine("There are no drinks");
     }
     else
     {
         for (int i = 0; i < drinks.Length; i++)
         {
-            Console.WriteLine("{0, -3}{1, -15}{2, -8}", i + 1, drinks[i].Name, drinks[i].Prise + "(руб)");
+            if (drinks[i].Name != null)
+            {
+                Console.WriteLine("{0, -3}{1, -15}{2, -8}", i + 1 - flag, drinks[i].Name, drinks[i].Prise + "(руб)");
+            }
+            else 
+            {
+                flag = 1;
+            }
         }
     }
 }
@@ -62,6 +72,7 @@ static void AdditionoСoffee(ref int orderSum)
     int suggar = 10;
     int syrop = 20;
 
+    WriteRow();
     Console.Write("Choose the amount of sugar(10 руб): ");
     suggar = "Yes" == Console.ReadLine() ? suggar : 0;
     WriteRow();
@@ -70,7 +81,7 @@ static void AdditionoСoffee(ref int orderSum)
     syrop = "Yes" == Console.ReadLine() ? syrop : 0;
     WriteRow();
 
-    int value = InputInt("Chosse the value of the gless \n 1. 100ml \n 2. 150ml \n 3. 200ml");
+    int value = InputInt("1. 100ml \n2. 150ml \n3. 200ml \nChosse the value of the gless: ");
     value = orderSum * value / 2;
 
     orderSum = suggar + syrop + value;
@@ -85,11 +96,11 @@ static void PayOrder(ref int orderSum)
 {
     Console.WriteLine($"Order sum: {orderSum}");
 
-    int deposited = InputInt("Deposit the amount for payment");
+    int deposited = InputInt("Deposit the amount for payment: ");
 
     if (deposited < orderSum)
     {
-        int addendum = InputInt("Not enough money to pay for a drink. Add more");
+        int addendum = InputInt("Not enough money to pay for a drink. Add more: ");
         Console.WriteLine($"Your change {orderSum - addendum - deposited} enjoy your meal");
     }
     else
@@ -98,38 +109,87 @@ static void PayOrder(ref int orderSum)
     }
 }
 
-static void ChosseCoffe(ref int orderSum)
+static void PrintCommandsUser()
 {
-    int numberCoffe = InputInt("Write id coffe you want buy: ");
+    WriteRow();
 
-    switch (numberCoffe)
+    Console.WriteLine("1. Buy drinks");
+    Console.WriteLine("0. Exit");
+
+    WriteRow();
+}
+
+static void ChosseCoffe(ref int orderSum, Drink[] drinks)
+{
+    PrintCommandsUser();
+
+    int active = InputInt("Read active: ");
+
+    if (active == 1)
     {
-        case 1:
-            orderSum += (int)Prise.Coffe;
-            break;
-        case 2:
-            orderSum += (int)Prise.Latte;
-            break;
-        case 3:
-            orderSum += (int)Prise.Macchiato;
-            break;
-        case 4:
-            orderSum += (int)Prise.DoubleEx;
-            break;
-        case 5:
-            orderSum += (int)Prise.Americano;
-            break;
-        case 6:
-            orderSum += (int)Prise.Cappuccino;
-            break;
+        Console.Clear();
+
+        PrintDrinks(drinks);
+
+        bool flag = true;
+
+        int numberCoffe = InputInt("Write id coffe you want buy: ");
+
+        switch (numberCoffe)
+        {
+            case 1:
+                orderSum += drinks[numberCoffe].Prise;
+                break;
+            case 2:
+                orderSum += drinks[numberCoffe].Prise;
+                break;
+            case 3:
+                orderSum += drinks[numberCoffe].Prise;
+                break;
+            case 4:
+                orderSum += drinks[numberCoffe].Prise;
+                break;
+            case 5:
+                orderSum += drinks[numberCoffe].Prise;
+                break;
+            case 6:
+                orderSum += drinks[numberCoffe].Prise;
+                break;
+            case 0:
+                Console.Clear();
+                Console.WriteLine("Exit");
+                break;
+            default:
+                {
+                    Console.WriteLine("Unknown command");
+                    flag = false;
+                    break;
+                }
+        }
+        if (flag)
+        {
+            AdditionoСoffee(ref orderSum);
+            Console.Clear();
+            PayOrder(ref orderSum);
+        }
     }
-    AdditionoСoffee(ref orderSum);
-    Console.Clear();
-    PayOrder(ref orderSum);
+    else 
+    {
+        Console.Clear();
+        Console.WriteLine("Exiting user mode ");
+    }
 }
 # endregion
 
 # region Admin
+
+static Drink[] NewElementInArray()
+{
+    Drink[] newDrinks = new Drink[1];
+
+    return newDrinks;
+}
+
 
 static Drink CreateDrink()
 {
@@ -140,19 +200,20 @@ static Drink CreateDrink()
     Console.Write("Enter the name of the drink: ");
     drink.Name = Console.ReadLine();
 
-    drink.Prise = InputInt("Введите цену: ");
+    drink.Prise = InputInt("Write prise: ");
 
     return drink;
 }
 
-static void PrintCommands() 
+static void PrintCommandsAdmin()
 {
     Console.WriteLine("Admin");
 
     Console.WriteLine("1. Adding a new element to the end");
     Console.WriteLine("2. Clear all drinks");
     Console.WriteLine("3. New prise by id");
-
+    Console.WriteLine("4. Clear element by id");
+    Console.WriteLine("0. Exet user acount");
 }
 
 static void ResizeArray(ref Drink[] drinks, int newLength)
@@ -176,61 +237,101 @@ static void AddNewElemendEnd(ref Drink[] drinks, Drink drink)
     drinks[drinks.Length - 1] = drink;
 }
 
-static bool EnterPassword()
+static void EnterPassword()
 {
-    Console.WriteLine("Enter Password");
-    string password = Console.ReadLine();
+    int count = 0;
+    int password;
 
-    if (password == "1")
+    do
     {
-        Console.WriteLine("true");
-        Console.ReadLine();
-
-        return true;
-    }
-    else
-    {
-        Console.WriteLine("false");
-        Console.ReadLine();
-
-        return false;
-    }
+        if (count != 0)
+        {
+            Console.WriteLine("false");
+            Console.ReadLine();
+            Console.Clear();
+            password = InputInt("Enter Password: ");
+        }
+        else 
+        {
+            password = InputInt("Enter Password: ");
+        }
+        count = 1;
+    } while (password != 1);
+    Console.WriteLine("true");
 }
 
-static void ChengeThePrice(Drink[] drinks) 
+static void ChengeThePrice(Drink[] drinks)
 {
-    int id = InputInt("Write id drink") - 1;
+    int id = InputInt("Write id drink: ") - 1;
 
-    int newPrise = InputInt("Write new prise drink");
+    int newPrise = InputInt("Write new prise drink: ");
 
     drinks[id].Prise = newPrise;
 }
 
-static void ClearDrinks(ref Drink[] drinks) 
+static void ClearDrinks(ref Drink[] drinks)
 {
     drinks = null;
 }
 
+static void ClearElementBuId(ref Drink[] drinks, int id)
+{
+    Drink[] newDrinks = new Drink[drinks.Length];
+
+    int readI = 0;
+
+    for (int i = 0; i < drinks.Length; i++)
+    {
+        if (i != id)
+        {
+            newDrinks[readI] = drinks[i];
+            readI++;
+        }
+    }
+    drinks = newDrinks;
+}
+
 static void ChosseAction(ref Drink[] drinks)
 {
+    EnterPassword();
+    Console.Clear();
+
     PrintDrinks(drinks);
     WriteRow();
-    PrintCommands();
+    PrintCommandsAdmin();
 
-    int numberAction = InputInt("");
+    int numberAction = InputInt("Enter the action id: ");
 
     switch (numberAction)
     {
         case 1:
             Drink drink = CreateDrink();
+
+            if (drinks == null)
+            {
+                drinks = NewElementInArray();
+            }
             AddNewElemendEnd(ref drinks, drink);
             break;
         case 2:
-            ClearDrinks(ref drinks);    
+            ClearDrinks(ref drinks);
             break;
         case 3:
             ChengeThePrice(drinks);
             break;
+        case 4:
+            int elementId = InputInt("Write elements id: ") - 1;
+            ClearElementBuId(ref drinks, elementId);
+            break;
+        case 0:
+            Console.Clear();
+            Console.WriteLine("Exit admin mode");
+            break;
+        default:
+            {
+                Console.WriteLine("Unknown command");
+                break;
+            }
     }
 }
 # endregion
@@ -245,9 +346,10 @@ int orderSum = 0;
 while (runProgram)
 {
     SelectionUser();
-
     int account = InputInt("");
+
     Console.Clear();
+
     switch (account)
     {
         case 0:
@@ -256,13 +358,15 @@ while (runProgram)
             Console.ReadLine();
             break;
         case 1:
+            Console.WriteLine("-------User-------");
+
             PrintDrinks(drinks);
-            ChosseCoffe(ref orderSum);
+            ChosseCoffe(ref orderSum, drinks);
+
             Console.ReadLine();
             Console.Clear();
             break;
         case 2:
-            runProgram = EnterPassword();
             Console.Clear();
 
             if (runProgram)
@@ -271,10 +375,11 @@ while (runProgram)
 
                 Console.ReadLine();
             }
-            else 
+            else
             {
                 Console.WriteLine("");
             }
+
             Console.Clear();
             break;
         default:
@@ -283,4 +388,3 @@ while (runProgram)
     }
 }
 Console.Clear();
-
