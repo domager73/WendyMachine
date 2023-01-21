@@ -140,21 +140,27 @@ static void ChosseCoffe(ref int orderSum, Drink[] drinks)
             case 0:
                 orderSum += drinks[numberCoffe].Prise;
                 break;
+
             case 1:
                 orderSum += drinks[numberCoffe].Prise;
                 break;
+
             case 2:
                 orderSum += drinks[numberCoffe].Prise;
                 break;
+
             case 3:
                 orderSum += drinks[numberCoffe].Prise;
                 break;
+
             case 4:
                 orderSum += drinks[numberCoffe].Prise;
                 break;
+
             case 5:
                 orderSum += drinks[numberCoffe].Prise;
                 break;
+
             default:
                 {
                     Console.WriteLine("Unknown command");
@@ -309,20 +315,25 @@ static void ChosseAction(ref Drink[] drinks)
             }
             AddNewElemendEnd(ref drinks, drink);
             break;
+
         case 2:
             ClearDrinks(ref drinks);
             break;
+
         case 3:
             ChengeThePrice(drinks);
             break;
+
         case 4:
             int elementId = InputInt("Write elements id: ") - 1;
             ClearElementBuId(ref drinks, elementId);
             break;
+
         case 0:
             Console.Clear();
             Console.WriteLine("Exit admin mode");
             break;
+
         default:
             {
                 Console.WriteLine("Unknown command");
@@ -353,6 +364,7 @@ while (runProgram)
             Console.WriteLine("Exit");
             Console.ReadLine();
             break;
+
         case 1:
             Console.WriteLine("-------User-------");
 
@@ -362,6 +374,7 @@ while (runProgram)
             Console.ReadLine();
             Console.Clear();
             break;
+
         case 2:
             Console.Clear();
 
@@ -374,6 +387,7 @@ while (runProgram)
 
             Console.Clear();
             break;
+
         default:
             Console.WriteLine("Unknow command");
             break;
