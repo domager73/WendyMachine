@@ -29,7 +29,6 @@ static Drink[] CreateDrinks(Drink[] drinks)
     string[] arrayCoffe = { "Coffe", "Latte", "Macchiato ", "DobleEx", "Americano", "Cappuccino" };
     int[] prise = { 100, 120, 150, 140, 160, 155 };
 
-
     for (int i = 0; i < arrayCoffe.Length; i++)
     {
         drinks[i].Name = arrayCoffe[i];
