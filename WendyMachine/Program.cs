@@ -129,6 +129,7 @@ static void ChosseCoffe(ref int orderSum, Drink[] drinks)
     {
         Console.Clear();
 
+        Console.WriteLine("-------User-------");
         PrintDrinks(drinks);
 
         bool flag = true;
