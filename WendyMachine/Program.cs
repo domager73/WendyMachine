@@ -57,7 +57,7 @@ static void PrintDrinks(Drink[] drinks)
             {
                 Console.WriteLine("{0, -3}{1, -15}{2, -8}", i + 1 - flag, drinks[i].Name, drinks[i].Prise + "(руб)");
             }
-            else 
+            else
             {
                 flag = 1;
             }
@@ -81,10 +81,10 @@ static void AdditionoСoffee(ref int orderSum)
     syrop = "Yes" == Console.ReadLine() ? syrop : 0;
     WriteRow();
 
-    int value = InputInt("1. 100ml \n2. 150ml \n3. 200ml \nChosse the value of the gless: ");
+    int value = InputInt("1. 100ml \n2. 150ml \n3. 200ml \nChosse the value of the glass: ");
     value = orderSum * value / 2;
 
-    orderSum = suggar + syrop + value;
+    orderSum += suggar + syrop + value;
 }
 
 static void WriteRow()
@@ -174,7 +174,7 @@ static void ChosseCoffe(ref int orderSum, Drink[] drinks)
             PayOrder(ref orderSum);
         }
     }
-    else 
+    else
     {
         Console.Clear();
         Console.WriteLine("Exiting user mode ");
@@ -252,7 +252,7 @@ static void EnterPassword()
             Console.Clear();
             password = InputInt("Enter Password: ");
         }
-        else 
+        else
         {
             password = InputInt("Enter Password: ");
         }
